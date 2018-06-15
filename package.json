@@ -18,12 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/littlebits/react-popover.git"
+    "url": "https://github.com/websdev/react-popover.git"
+  },
+  "publishConfig": {
+    "registry": "http://private.npm.digital.vistaprint.io/"
   },
   "author": "Jason Kuhrt <jasonkuhrt@me.com> (http://jasonkuhrt.com/)",
-  "name": "react-popover",
-  "homepage": "https://github.com/littlebits/react-popover",
-  "version": "0.3.6",
+  "name": "@vpdigital/react-popover",
+  "homepage": "https://github.com/websdev/react-popover",
+  "version": "0.3.7",
   "main": "build/index.js",
   "description": "A specification backed popover for react",
   "devDependencies": {
@@ -50,6 +53,6 @@
     "webpack-dev-server": "^1.10.1"
   },
   "bugs": {
-    "url": "https://github.com/littlebits/react-popover/issues"
+    "url": "https://github.com/websdev/react-popover/issues"
   }
 }

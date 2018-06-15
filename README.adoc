@@ -12,7 +12,7 @@ toc::[]
 ## Installation
 
 ----
-npm install --save react-popover
+npm install --save "@vpdigital/react-popover"
 ----
 
 
