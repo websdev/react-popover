@@ -12,6 +12,20 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var _react = require('react');
 
+var _react2 = _interopRequireDefault(_react);
+
+var _createReactClass = require('create-react-class');
+
+var _createReactClass2 = _interopRequireDefault(_createReactClass);
+
+var _reactDomFactories = require('react-dom-factories');
+
+var _reactDomFactories2 = _interopRequireDefault(_reactDomFactories);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _debug = require('debug');
 
 var _debug2 = _interopRequireDefault(_debug);
@@ -82,21 +96,21 @@ var flowToPopoverTranslations = {
   column: 'translateY'
 };
 
-var Popover = (0, _react.createClass)({
+var Popover = (0, _createReactClass2['default'])({
   displayName: 'popover',
   propTypes: {
-    body: _react.PropTypes.node.isRequired,
-    target: _react.PropTypes.object.isRequired,
-    preferPlace: _react.PropTypes.oneOf(Layout.validTypeValues),
-    place: _react.PropTypes.oneOf(Layout.validTypeValues),
-    tipSize: _react.PropTypes.number,
-    offsetX: _react.PropTypes.number,
-    offsetY: _react.PropTypes.number,
-    refreshIntervalMs: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.bool]),
-    isOpen: _react.PropTypes.bool,
-    onOuterAction: _react.PropTypes.func,
-    enterExitTransitionDurationMs: _react.PropTypes.number,
-    align: _react.PropTypes.string
+    body: _propTypes2['default'].node.isRequired,
+    target: _propTypes2['default'].object.isRequired,
+    preferPlace: _propTypes2['default'].oneOf(Layout.validTypeValues),
+    place: _propTypes2['default'].oneOf(Layout.validTypeValues),
+    tipSize: _propTypes2['default'].number,
+    offsetX: _propTypes2['default'].number,
+    offsetY: _propTypes2['default'].number,
+    refreshIntervalMs: _propTypes2['default'].oneOfType([_propTypes2['default'].number, _propTypes2['default'].bool]),
+    isOpen: _propTypes2['default'].bool,
+    onOuterAction: _propTypes2['default'].func,
+    enterExitTransitionDurationMs: _propTypes2['default'].number,
+    align: _propTypes2['default'].string
   },
   getInitialState: function getInitialState() {
     return {
@@ -126,8 +140,6 @@ var Popover = (0, _react.createClass)({
     if (this.measureTargetBounds()) this.resolvePopoverLayout();
   },
   resolvePopoverLayout: function resolvePopoverLayout() {
-    if (!this.isMounted()) return;
-
     /* Find the optimal zone to position self. Measure the size of each zone and use the one with
     the greatest area. */
 
@@ -290,11 +302,6 @@ var Popover = (0, _react.createClass)({
     this.setState({ toggle: true, exited: false });
   },
   close: function close() {
-    /* TODO?: we currently do not setup any `entering` state flag because
-    nothing would really need to depend on it. Stopping animations is currently nothing
-    more than clearing some timeouts which are safe to clear even if undefined. The
-    primary reason for `exiting` state is for the `layerRender` logic. */
-    this.animateEnterStop();
     this.setState({ toggle: false });
   },
   componentDidUpdate: function componentDidUpdate(propsPrev, statePrev) {
@@ -340,13 +347,7 @@ var Popover = (0, _react.createClass)({
       _this.setState({ exited: true, exiting: false });
     }, this.props.enterExitTransitionDurationMs);
   },
-  animateEnterStop: function animateEnterStop() {
-    clearTimeout(this.enteringAnimationTimer1);
-    clearTimeout(this.enteringAnimationTimer2);
-  },
   animateEnter: function animateEnter() {
-    var _this2 = this;
-
     /* Prepare `entering` style so that we can then animate it toward `entered`. */
 
     this.containerEl.style.transform = flowToPopoverTranslations[this.zone.flow] + '(' + this.zone.order * 50 + 'px)';
@@ -355,18 +356,17 @@ var Popover = (0, _react.createClass)({
 
     /* After initial layout apply transition animations. */
 
-    this.enteringAnimationTimer1 = setTimeout(function () {
-      _this2.tipEl.style.transition = 'transform 150ms ease-in';
-      _this2.tipEl.style[jsprefix('Transition')] = cssprefix('transform') + ' 150ms ease-in';
-      _this2.containerEl.style.transitionProperty = 'top, left, opacity, transform';
-      _this2.containerEl.style.transitionDuration = '500ms';
-      _this2.containerEl.style.transitionTimingFunction = 'cubic-bezier(0.230, 1.000, 0.320, 1.000)';
-      _this2.enteringAnimationTimer2 = setTimeout(function () {
-        _this2.containerEl.style.opacity = '1';
-        _this2.containerEl.style.transform = 'translateY(0)';
-        _this2.containerEl.style[jsprefix('Transform')] = _this2.containerEl.style.transform;
-      }, 0);
-    }, 0);
+    /* Hack: http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes */
+    this.containerEl.offsetHeight;
+
+    this.tipEl.style.transition = 'transform 150ms ease-in';
+    this.tipEl.style[jsprefix('Transition')] = cssprefix('transform') + ' 150ms ease-in';
+    this.containerEl.style.transitionProperty = 'top, left, opacity, transform';
+    this.containerEl.style.transitionDuration = '500ms';
+    this.containerEl.style.transitionTimingFunction = 'cubic-bezier(0.230, 1.000, 0.320, 1.000)';
+    this.containerEl.style.opacity = '1';
+    this.containerEl.style.transform = 'translateY(0)';
+    this.containerEl.style[jsprefix('Transform')] = this.containerEl.style.transform;
   },
   trackPopover: function trackPopover() {
     var minScrollRefreshIntervalMs = 200;
@@ -484,7 +484,7 @@ var Popover = (0, _react.createClass)({
 
     var popoverBody = (0, _utils.arrayify)(this.props.body);
 
-    return _react.DOM.div(popoverProps, _react.DOM.div.apply(_react.DOM, [{ className: 'Popover-body' }].concat(_toConsumableArray(popoverBody))), (0, _react.createElement)(_popoverTip2['default'], tipProps));
+    return _reactDomFactories2['default'].div(popoverProps, _reactDomFactories2['default'].div.apply(_reactDomFactories2['default'], [{ className: 'Popover-body' }].concat(_toConsumableArray(popoverBody))), _react2['default'].createElement(_popoverTip2['default'], tipProps));
   }
 });
 
