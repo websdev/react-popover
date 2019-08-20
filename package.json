@@ -1,5 +1,17 @@
 {
-  "license": "MIT",
+  "name": "@vpdigital/react-popover",
+  "author": "Jason Kuhrt <jasonkuhrt@me.com> (http://jasonkuhrt.com/)",
+  "homepage": "https://github.com/websdev/react-popover",
+  "version": "0.3.9",
+  "main": "build/index.js",
+  "description": "A specification backed popover for react",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/websdev/react-popover.git"
+  },
+  "publishConfig": {
+    "registry": "http://private.npm.digital.vistaprint.io/"
+  },
   "scripts": {
     "build-examples": "webpack --colors --config webpack.examples.config.babel.js",
     "deploy-demo": "git checkout gh-pages && git merge master --no-edit && npm run build-examples && git commit -am 'Update demo' && git push && git checkout master",
@@ -10,6 +22,10 @@
     "prepublish": "npm run build",
     "postversion": "git push && git push --tags && npm publish"
   },
+  "bugs": {
+    "url": "https://github.com/websdev/react-popover/issues"
+  },
+  "license": "MIT",
   "dependencies": {
     "create-react-class": "^15.6.3",
     "css-vendor": "^0.2.5",
@@ -19,19 +35,9 @@
     "prop-types": "^15.7.1",
     "react-dom-factories": "^1.0.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/websdev/react-popover.git"
+  "peerDependencies": {
+    "react": ">=16.9.0"
   },
-  "publishConfig": {
-    "registry": "http://private.npm.digital.vistaprint.io/"
-  },
-  "author": "Jason Kuhrt <jasonkuhrt@me.com> (http://jasonkuhrt.com/)",
-  "name": "@vpdigital/react-popover",
-  "homepage": "https://github.com/websdev/react-popover",
-  "version": "0.3.9",
-  "main": "build/index.js",
-  "description": "A specification backed popover for react",
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-eslint": "^4.1.3",
@@ -54,8 +60,5 @@
     "testem": "^0.9.6",
     "webpack": "^1.12.1",
     "webpack-dev-server": "^1.10.1"
-  },
-  "bugs": {
-    "url": "https://github.com/websdev/react-popover/issues"
   }
 }
